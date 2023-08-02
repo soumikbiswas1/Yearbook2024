@@ -96,6 +96,11 @@ const validationSchema = yup.object().shape({
     .required(requiredErrorMessage)
     .checkNoEmojis(emojiErrorMessage)
     .matches(englishChractersRegex, englishCharactersErrorMessage),
+  nickname: yup
+    .string()
+    .required(requiredErrorMessage)
+    .checkNoEmojis(emojiErrorMessage)
+    .matches(englishChractersRegex, englishCharactersErrorMessage),
   department: yup.string().required(requiredErrorMessage),
   rollNumber: yup.string().required(requiredErrorMessage),
   email: yup.string().required(requiredErrorMessage).email(emailErrorMessage),
@@ -105,7 +110,10 @@ const validationSchema = yup.object().shape({
     .matches(phoneRegExp, phoneErrorMessage)
     .min(10, phoneLengthErrorMessage)
     .max(10, phoneLengthErrorMessage),
-  image: yup.string().required(requiredErrorMessage).maxImageSize(imageSizeErrorMessage),
+  image: yup
+    .string()
+    .required(requiredErrorMessage)
+    .maxImageSize(imageSizeErrorMessage),
   clubs: yup.array().distinctEntries(duplicateErrorMessage),
   wing: yup
     .string()
@@ -128,7 +136,7 @@ export default function DetailsForm() {
 
   const department = BranchData[code].name;
 
-const csvDataa = `RollNo,NAME
+  const csvDataa = `RollNo,NAME
 20BT8001,SOUVIK PAL
 20BT8002,ESHA MANDAL
 20BT8003,DEBRUP CHAKRABORTY
@@ -980,13 +988,12 @@ PRANEETH"
       skipEmptyLines: true,
       //newline: "",
       complete: (result) => {
-        console.log(result)
+        console.log(result);
         setCsvData(result.data);
       },
     });
   }, []);
-  console.log("Data",csvData[0])
-
+  console.log("Data", csvData[0]);
 
   const handleRollNumberChange = (e, setFieldValue) => {
     const selectedRollNumber = e.target.value;
@@ -996,15 +1003,16 @@ PRANEETH"
     // const selected = csvData.find(
     //   (item) => item.RollNo === selectedRollNumber
     // );
-    const selected = csvData.find((entry) => entry.RollNo === selectedRollNumber);
-    if(selected){
-      const selectedName=selected.NAME;
+    const selected = csvData.find(
+      (entry) => entry.RollNo === selectedRollNumber
+    );
+    if (selected) {
+      const selectedName = selected.NAME;
       console.log(selectedName);
       setFieldValue("name", selectedName);
     }
     console.log(selected);
     setFieldValue("rollNumber", selectedRollNumber);
-
   };
 
   const getRollNumbers = () => {
@@ -1034,6 +1042,7 @@ PRANEETH"
 
   const initialValues = {
     name: "",
+    nickname: "",
     department,
     rollNumber: rollNumbers[0],
     email: "",
@@ -1184,8 +1193,8 @@ PRANEETH"
       <div style={{ color: "#808080", fontSize: "13px", marginTop: "5px" }}>
         <center>
           For any queries or information, contact Sagnik Khan (
-          <a href="tel:8420074884">8420074884</a>) or Diya Sutar (
-          <a href="tel:7063969747">7063969747</a>).
+          <a href="tel:8420074884">8420074884</a>) or Kaushal Baid (
+          <a href="tel:7044666331">7044666331</a>).
         </center>
       </div>
 
@@ -1213,6 +1222,26 @@ PRANEETH"
                   </div>
                   {errors.name && touched.name && (
                     <div className="error-message">{errors.name}</div>
+                  )}
+                </div>
+              )}
+            </Field>
+
+            <Field name="nickname">
+              {({ field, form: { touched, errors }, meta }) => (
+                <div className="input-wrapper">
+                  <div className="wrap-input100">
+                    <span className="label-input100">
+                      <span>
+                        Nick Name:
+                        <h5 style={{ color: "red" }}>*</h5>
+                      </span>
+                    </span>
+                    <input className="input100" type="text" {...field} />
+                    <span className="error focus-input100"></span>
+                  </div>
+                  {errors.nickname && touched.nickname && (
+                    <div className="error-message">{errors.nickname}</div>
                   )}
                 </div>
               )}
@@ -1312,13 +1341,12 @@ PRANEETH"
 
             <Field name="image">
               {({ field, form: { touched, errors }, meta }) => {
-                console.log(errors.image, touched);
+                // console.log(errors.image, touched);
 
                 return (
                   <div class="input-wrapper">
                     <div className="wrap-input100 validate-input photo-wrapper">
                       <span className="label-input100">Photo</span>
-
 
                       <BootstrapForm.Control
                         type="file"

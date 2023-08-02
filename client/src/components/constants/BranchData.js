@@ -1,6 +1,6 @@
 export const BranchData = {
   BT: {
-    additionalRollNumbers: ["18BT8022", "18BT8037", "18BT8045"],
+    additionalRollNumbers: ["19BT8022", "19BT8037", "19BT8045"],
     start: 8001,
     end: 8068,
     name: "Biotechnology",
@@ -22,8 +22,8 @@ export const BranchData = {
   },
   CS: {
     additionalRollNumbers: [
-      "18CS8006",
-      "18CS8034",
+      "19CS8006",
+      "19CS8034",
       "18CS8038",
       "18CS8043",
       "18CS8095",
@@ -63,8 +63,8 @@ export const BranchData = {
   },
   "DD-BT": {
     additionalRollNumbers: [],
-    start: 1001,
-    end: 1005,
+    start: null,
+    end: null,
     name: "Biotechnology-Dual Degree",
     code: "BT",
   },
